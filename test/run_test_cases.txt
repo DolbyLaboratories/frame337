@@ -1,0 +1,308 @@
+sources/dde_es/delay_coherency_25fps.dde reference_output/tid001_delay_coherency_25fps.wav 
+sources/dde_es/delay_coherency_2997fps.dde reference_output/tid002_delay_coherency_2997fps.wav 
+sources/dde_es/downmix_1ch_25fps.dde reference_output/tid003_downmix_1ch_25fps.wav 
+sources/dde_es/downmix_1ch_2997fps.dde reference_output/tid004_downmix_1ch_2997fps.wav 
+sources/dde_es/downmix_4ch_25fps.dde reference_output/tid005_downmix_4ch_25fps.wav 
+sources/dde_es/downmix_4ch_2997fps.dde reference_output/tid006_downmix_4ch_2997fps.wav 
+sources/dde_es/downmix_6ch_25fps.dde reference_output/tid007_downmix_6ch_25fps.wav 
+sources/dde_es/downmix_6ch_2997fps.dde reference_output/tid008_downmix_6ch_2997fps.wav 
+sources/dde_es/downmix_8ch_25fps.dde reference_output/tid009_downmix_8ch_25fps.wav 
+sources/dde_es/downmix_8ch_2997fps.dde reference_output/tid010_downmix_8ch_2997fps.wav 
+sources/dde_es/error_spacing_25fps.dde reference_output/tid011_error_spacing_25fps.wav 
+sources/dde_es/error_spacing_2997fps.dde reference_output/tid012_error_spacing_2997fps.wav 
+sources/dde_es/frame_dropout_25fps.dde reference_output/tid013_frame_dropout_25fps.wav 
+sources/dde_es/frame_dropout_2997fps.dde reference_output/tid014_frame_dropout_2997fps.wav 
+sources/dde_es/frame_rate_conversion_2398fps.dde reference_output/tid015_frame_rate_conversion_2398fps.wav 
+sources/dde_es/frame_rate_conversion_24fps.dde reference_output/tid016_frame_rate_conversion_24fps.wav 
+sources/dde_es/frame_sync_25fps.dde reference_output/tid017_frame_sync_25fps.wav 
+sources/dde_es/frame_sync_2997fps.dde reference_output/tid018_frame_sync_2997fps.wav 
+sources/dde_es/latency_2398fps.dde reference_output/tid019_latency_2398fps.wav 
+sources/dde_es/latency_24fps.dde reference_output/tid020_latency_24fps.wav 
+sources/dde_es/latency_25fps.dde reference_output/tid021_latency_25fps.wav 
+sources/dde_es/latency_2997fps.dde reference_output/tid022_latency_2997fps.wav 
+sources/dde_es/latency_30fps.dde reference_output/tid023_latency_30fps.wav 
+sources/dde_es/metadata_out1_25fps.dde reference_output/tid024_metadata_out1_25fps.wav 
+sources/dde_es/metadata_out2_2997fps.dde reference_output/tid025_metadata_out2_2997fps.wav 
+sources/dde_es/metadata_out3_25fps.dde reference_output/tid026_metadata_out3_25fps.wav 
+sources/dde_es/out_chanmap_swp_25fps.dde reference_output/tid027_out_chanmap_swp_25fps.wav 
+sources/dde_es/out_chanmap_swp_2997fps.dde reference_output/tid028_out_chanmap_swp_2997fps.wav 
+sources/dde_es/pa_alignment_25fps.dde reference_output/tid029_pa_alignment_25fps.wav 
+sources/dde_es/pa_alignment_2997fps.dde reference_output/tid030_pa_alignment_2997fps.wav 
+sources/dde_es/partial_dropout_25fps.dde reference_output/tid031_partial_dropout_25fps.wav 
+sources/dde_es/partial_dropout_2997fps.dde reference_output/tid032_partial_dropout_2997fps.wav 
+sources/dde_es/program_play_listen_25fps.dde reference_output/tid033_program_play_listen_25fps.wav 
+sources/dde_es/program_play_listen_2997fps.dde reference_output/tid034_program_play_listen_2997fps.wav 
+sources/dde_es/program_play_shift_25fps.dde reference_output/tid035_program_play_shift_25fps.wav 
+sources/dde_es/program_play_shift_2997fps.dde reference_output/tid036_program_play_shift_2997fps.wav 
+sources/dde_es/smpte337m_2398fps.dde reference_output/tid037_smpte337m_2398fps.wav 
+sources/dde_es/smpte337m_24fps.dde reference_output/tid038_smpte337m_24fps.wav 
+sources/dde_es/smpte337m_25fps.dde reference_output/tid039_smpte337m_25fps.wav 
+sources/dde_es/smpte337m_2997fps.dde reference_output/tid040_smpte337m_2997fps.wav 
+sources/dde_es/smpte337m_30fps.dde reference_output/tid041_smpte337m_30fps.wav 
+sources/dde_es/test_tones_2398fps.dde reference_output/tid042_test_tones_2398fps.wav 
+sources/dde_es/test_tones_24fps.dde reference_output/tid043_test_tones_24fps.wav 
+sources/dde_es/test_tones_25fps.dde reference_output/tid044_test_tones_25fps.wav 
+sources/dde_es/test_tones_2997fps.dde reference_output/tid045_test_tones_2997fps.wav 
+sources/dde_es/test_tones_30fps.dde reference_output/tid046_test_tones_30fps.wav 
+sources/dde_es/timecode_25fps.dde reference_output/tid047_timecode_25fps.wav 
+sources/dde_wav/delay_coherency_25fps.wav reference_output/tid048_delay_coherency_25fps.dde -d
+sources/dde_wav/delay_coherency_2997fps.wav reference_output/tid049_delay_coherency_2997fps.dde -d
+sources/dde_wav/downmix_1ch_25fps.wav reference_output/tid050_downmix_1ch_25fps.dde -d
+sources/dde_wav/downmix_1ch_2997fps.wav reference_output/tid051_downmix_1ch_2997fps.dde -d
+sources/dde_wav/downmix_4ch_25fps.wav reference_output/tid052_downmix_4ch_25fps.dde -d
+sources/dde_wav/downmix_4ch_2997fps.wav reference_output/tid053_downmix_4ch_2997fps.dde -d
+sources/dde_wav/downmix_6ch_25fps.wav reference_output/tid054_downmix_6ch_25fps.dde -d
+sources/dde_wav/downmix_6ch_2997fps.wav reference_output/tid055_downmix_6ch_2997fps.dde -d
+sources/dde_wav/downmix_8ch_25fps.wav reference_output/tid056_downmix_8ch_25fps.dde -d
+sources/dde_wav/downmix_8ch_2997fps.wav reference_output/tid057_downmix_8ch_2997fps.dde -d
+sources/dde_wav/error_spacing_25fps.wav reference_output/tid058_error_spacing_25fps.dde -d
+sources/dde_wav/error_spacing_2997fps.wav reference_output/tid059_error_spacing_2997fps.dde -d
+sources/dde_wav/frame_dropout_25fps.wav reference_output/tid060_frame_dropout_25fps.dde -d
+sources/dde_wav/frame_dropout_2997fps.wav reference_output/tid061_frame_dropout_2997fps.dde -d
+sources/dde_wav/frame_rate_conversion_2398fps.wav reference_output/tid062_frame_rate_conversion_2398fps.dde -d
+sources/dde_wav/frame_rate_conversion_24fps.wav reference_output/tid063_frame_rate_conversion_24fps.dde -d
+sources/dde_wav/frame_sync_25fps.wav reference_output/tid064_frame_sync_25fps.dde -d
+sources/dde_wav/frame_sync_2997fps.wav reference_output/tid065_frame_sync_2997fps.dde -d
+sources/dde_wav/latency_2398fps.wav reference_output/tid066_latency_2398fps.dde -d
+sources/dde_wav/latency_24fps.wav reference_output/tid067_latency_24fps.dde -d
+sources/dde_wav/latency_25fps.wav reference_output/tid068_latency_25fps.dde -d
+sources/dde_wav/latency_2997fps.wav reference_output/tid069_latency_2997fps.dde -d
+sources/dde_wav/latency_30fps.wav reference_output/tid070_latency_30fps.dde -d
+sources/dde_wav/metadata_out1_25fps.wav reference_output/tid071_metadata_out1_25fps.dde -d
+sources/dde_wav/metadata_out2_2997fps.wav reference_output/tid072_metadata_out2_2997fps.dde -d
+sources/dde_wav/metadata_out3_25fps.wav reference_output/tid073_metadata_out3_25fps.dde -d
+sources/dde_wav/out_chanmap_swp_25fps.wav reference_output/tid074_out_chanmap_swp_25fps.dde -d
+sources/dde_wav/out_chanmap_swp_2997fps.wav reference_output/tid075_out_chanmap_swp_2997fps.dde -d
+sources/dde_wav/pa_alignment_25fps.wav reference_output/tid076_pa_alignment_25fps.dde -d
+sources/dde_wav/pa_alignment_2997fps.wav reference_output/tid077_pa_alignment_2997fps.dde -d
+sources/dde_wav/partial_dropout_25fps.wav reference_output/tid078_partial_dropout_25fps.dde -d
+sources/dde_wav/partial_dropout_2997fps.wav reference_output/tid079_partial_dropout_2997fps.dde -d
+sources/dde_wav/program_play_listen_25fps.wav reference_output/tid080_program_play_listen_25fps.dde -d
+sources/dde_wav/program_play_listen_2997fps.wav reference_output/tid081_program_play_listen_2997fps.dde -d
+sources/dde_wav/program_play_shift_25fps.wav reference_output/tid082_program_play_shift_25fps.dde -d
+sources/dde_wav/program_play_shift_2997fps.wav reference_output/tid083_program_play_shift_2997fps.dde -d
+sources/dde_wav/smpte337m_2398fps.wav reference_output/tid084_smpte337m_2398fps.dde -d
+sources/dde_wav/smpte337m_24fps.wav reference_output/tid085_smpte337m_24fps.dde -d
+sources/dde_wav/smpte337m_25fps.wav reference_output/tid086_smpte337m_25fps.dde -d
+sources/dde_wav/smpte337m_2997fps.wav reference_output/tid087_smpte337m_2997fps.dde -d
+sources/dde_wav/smpte337m_30fps.wav reference_output/tid088_smpte337m_30fps.dde -d
+sources/dde_wav/test_tones_2398fps.wav reference_output/tid089_test_tones_2398fps.dde -d
+sources/dde_wav/test_tones_24fps.wav reference_output/tid090_test_tones_24fps.dde -d
+sources/dde_wav/test_tones_25fps.wav reference_output/tid091_test_tones_25fps.dde -d
+sources/dde_wav/test_tones_2997fps.wav reference_output/tid092_test_tones_2997fps.dde -d
+sources/dde_wav/test_tones_30fps.wav reference_output/tid093_test_tones_30fps.dde -d
+sources/dde_wav/timecode_25fps.wav reference_output/tid094_timecode_25fps.dde -d
+sources/dde_wav/timecode_2997fps.wav reference_output/tid095_timecode_2997fps.dde -d
+sources/dd_es/2ch_typical.ac3 reference_output/tid096_2ch_typical.wav 
+sources/dd_es/6ch_acmod10.ac3 reference_output/tid097_6ch_acmod10.wav 
+sources/dd_es/6ch_acmod21.ac3 reference_output/tid098_6ch_acmod21.wav 
+sources/dd_es/6ch_acmod22.ac3 reference_output/tid099_6ch_acmod22.wav 
+sources/dd_es/6ch_acmod30.ac3 reference_output/tid100_6ch_acmod30.wav 
+sources/dd_es/6ch_acmod31.ac3 reference_output/tid101_6ch_acmod31.wav 
+sources/dd_es/6ch_acmod32.ac3 reference_output/tid102_6ch_acmod32.wav 
+sources/dd_es/6ch_acmod_sweep.ac3 reference_output/tid103_6ch_acmod_sweep.wav 
+sources/dd_es/6ch_bsid0.ac3 reference_output/tid104_6ch_bsid0.wav 
+sources/dd_es/6ch_bsid1.ac3 reference_output/tid105_6ch_bsid1.wav 
+sources/dd_es/6ch_bsid2.ac3 reference_output/tid106_6ch_bsid2.wav 
+sources/dd_es/6ch_bsid3.ac3 reference_output/tid107_6ch_bsid3.wav 
+sources/dd_es/6ch_bsid4.ac3 reference_output/tid108_6ch_bsid4.wav 
+sources/dd_es/6ch_bsid5.ac3 reference_output/tid109_6ch_bsid5.wav 
+sources/dd_es/6ch_bsid7.ac3 reference_output/tid110_6ch_bsid7.wav 
+sources/dd_es/6ch_bsid8.ac3 reference_output/tid111_6ch_bsid8.wav 
+sources/dd_es/6ch_dd_main_dual_pid.ac3 reference_output/tid112_6ch_dd_main_dual_pid.wav 
+sources/dd_es/6ch_typical.ac3 reference_output/tid113_6ch_typical.wav 
+sources/dd_es/error1.ac3 reference_output/tid114_error1.wav 
+sources/dd_es/error2.ac3 reference_output/tid115_error2.wav 
+sources/dd_es/error5.ac3 reference_output/tid116_error5.wav 
+sources/dd_wav/2ch_typical.wav reference_output/tid117_2ch_typical.ac3 -d
+sources/dd_wav/6ch_acmod10.wav reference_output/tid118_6ch_acmod10.ac3 -d
+sources/dd_wav/6ch_acmod21.wav reference_output/tid119_6ch_acmod21.ac3 -d
+sources/dd_wav/6ch_acmod22.wav reference_output/tid120_6ch_acmod22.ac3 -d
+sources/dd_wav/6ch_acmod30.wav reference_output/tid121_6ch_acmod30.ac3 -d
+sources/dd_wav/6ch_acmod31.wav reference_output/tid122_6ch_acmod31.ac3 -d
+sources/dd_wav/6ch_acmod32.wav reference_output/tid123_6ch_acmod32.ac3 -d
+sources/dd_wav/6ch_acmod_sweep.wav reference_output/tid124_6ch_acmod_sweep.ac3 -d
+sources/dd_wav/6ch_bsid0.wav reference_output/tid125_6ch_bsid0.ac3 -d
+sources/dd_wav/6ch_bsid1.wav reference_output/tid126_6ch_bsid1.ac3 -d
+sources/dd_wav/6ch_bsid2.wav reference_output/tid127_6ch_bsid2.ac3 -d
+sources/dd_wav/6ch_bsid3.wav reference_output/tid128_6ch_bsid3.ac3 -d
+sources/dd_wav/6ch_bsid4.wav reference_output/tid129_6ch_bsid4.ac3 -d
+sources/dd_wav/6ch_bsid5.wav reference_output/tid130_6ch_bsid5.ac3 -d
+sources/dd_wav/6ch_bsid7.wav reference_output/tid131_6ch_bsid7.ac3 -d
+sources/dd_wav/6ch_bsid8.wav reference_output/tid132_6ch_bsid8.ac3 -d
+sources/dd_wav/6ch_dd_main_dual_pid.wav reference_output/tid133_6ch_dd_main_dual_pid.ac3 -d
+sources/dd_wav/6ch_typical.wav reference_output/tid134_6ch_typical.ac3 -d
+sources/dd_wav/error1.wav reference_output/tid135_error1.ac3 -d
+sources/dd_wav/error2.wav reference_output/tid136_error2.ac3 -d
+sources/dd_wav/error5.wav reference_output/tid137_error5.ac3 -d
+sources/ddplus_es/1ch_ad_dual_pid.ec3 reference_output/tid138_1ch_ad_dual_pid.wav 
+sources/ddplus_es/1ch_ddp_ad_dual_pid.ec3 reference_output/tid139_1ch_ddp_ad_dual_pid.wav 
+sources/ddplus_es/2ch_typical.ec3 reference_output/tid140_2ch_typical.wav 
+sources/ddplus_es/3_stream_640.ec3 reference_output/tid141_3_stream_640.wav 
+sources/ddplus_es/6ch_acmod10.ec3 reference_output/tid142_6ch_acmod10.wav 
+sources/ddplus_es/6ch_acmod21.ec3 reference_output/tid143_6ch_acmod21.wav 
+sources/ddplus_es/6ch_acmod22.ec3 reference_output/tid144_6ch_acmod22.wav 
+sources/ddplus_es/6ch_acmod30.ec3 reference_output/tid145_6ch_acmod30.wav 
+sources/ddplus_es/6ch_acmod31.ec3 reference_output/tid146_6ch_acmod31.wav 
+sources/ddplus_es/6ch_acmod32.ec3 reference_output/tid147_6ch_acmod32.wav 
+sources/ddplus_es/6ch_acmod_sweep.ec3 reference_output/tid148_6ch_acmod_sweep.wav 
+sources/ddplus_es/6ch_bsid11.ec3 reference_output/tid149_6ch_bsid11.wav 
+sources/ddplus_es/6ch_bsid12.ec3 reference_output/tid150_6ch_bsid12.wav 
+sources/ddplus_es/6ch_bsid13.ec3 reference_output/tid151_6ch_bsid13.wav 
+sources/ddplus_es/6ch_bsid14.ec3 reference_output/tid152_6ch_bsid14.wav 
+sources/ddplus_es/6ch_bsid15.ec3 reference_output/tid153_6ch_bsid15.wav 
+sources/ddplus_es/6ch_err_conceal_7.ec3 reference_output/tid154_6ch_err_conceal_7.wav 
+sources/ddplus_es/6ch_main_1ch_ad.ec3 reference_output/tid155_6ch_main_1ch_ad.wav 
+sources/ddplus_es/6ch_main_2ch_ad.ec3 reference_output/tid156_6ch_main_2ch_ad.wav 
+sources/ddplus_es/6ch_main_dual_pid.ec3 reference_output/tid157_6ch_main_dual_pid.wav 
+sources/ddplus_es/6ch_substream.ec3 reference_output/tid158_6ch_substream.wav 
+sources/ddplus_es/6ch_typical.ec3 reference_output/tid159_6ch_typical.wav 
+sources/ddplus_es/8ch_7.1_standard.ec3 reference_output/tid160_8ch_7.1_standard.wav 
+sources/ddplus_es/ChID_voices_51_384_ddp_joc.ec3 reference_output/tid161_ChID_voices_51_384_ddp_joc.wav 
+sources/ddplus_es/ChID_voices_71_448_ddp_joc.ec3 reference_output/tid162_ChID_voices_71_448_ddp_joc.wav 
+sources/ddplus_es/ChID_voices_71_640_ddp_joc.ec3 reference_output/tid163_ChID_voices_71_640_ddp_joc.wav 
+sources/ddplus_es/ddp_evo_passthrough_32L.ec3 reference_output/tid164_ddp_evo_passthrough_32L.wav 
+sources/ddplus_wav/1ch_ad_dual_pid.wav reference_output/tid165_1ch_ad_dual_pid.ec3 -d
+sources/ddplus_wav/1ch_ddp_ad_dual_pid.wav reference_output/tid166_1ch_ddp_ad_dual_pid.ec3 -d
+sources/ddplus_wav/2ch_typical.wav reference_output/tid167_2ch_typical.ec3 -d
+sources/ddplus_wav/3_stream_640.wav reference_output/tid168_3_stream_640.ec3 -d
+sources/ddplus_wav/6ch_acmod10.wav reference_output/tid169_6ch_acmod10.ec3 -d
+sources/ddplus_wav/6ch_acmod21.wav reference_output/tid170_6ch_acmod21.ec3 -d
+sources/ddplus_wav/6ch_acmod22.wav reference_output/tid171_6ch_acmod22.ec3 -d
+sources/ddplus_wav/6ch_acmod30.wav reference_output/tid172_6ch_acmod30.ec3 -d
+sources/ddplus_wav/6ch_acmod31.wav reference_output/tid173_6ch_acmod31.ec3 -d
+sources/ddplus_wav/6ch_acmod32.wav reference_output/tid174_6ch_acmod32.ec3 -d
+sources/ddplus_wav/6ch_acmod_sweep.wav reference_output/tid175_6ch_acmod_sweep.ec3 -d
+sources/ddplus_wav/6ch_bsid11.wav reference_output/tid176_6ch_bsid11.ec3 -d
+sources/ddplus_wav/6ch_bsid12.wav reference_output/tid177_6ch_bsid12.ec3 -d
+sources/ddplus_wav/6ch_bsid13.wav reference_output/tid178_6ch_bsid13.ec3 -d
+sources/ddplus_wav/6ch_bsid14.wav reference_output/tid179_6ch_bsid14.ec3 -d
+sources/ddplus_wav/6ch_bsid15.wav reference_output/tid180_6ch_bsid15.ec3 -d
+sources/ddplus_wav/6ch_err_conceal_7.wav reference_output/tid181_6ch_err_conceal_7.ec3 -d
+sources/ddplus_wav/6ch_main_1ch_ad.wav reference_output/tid182_6ch_main_1ch_ad.ec3 -d
+sources/ddplus_wav/6ch_main_2ch_ad.wav reference_output/tid183_6ch_main_2ch_ad.ec3 -d
+sources/ddplus_wav/6ch_main_dual_pid.wav reference_output/tid184_6ch_main_dual_pid.ec3 -d
+sources/ddplus_wav/6ch_substream.wav reference_output/tid185_6ch_substream.ec3 -d
+sources/ddplus_wav/6ch_typical.wav reference_output/tid186_6ch_typical.ec3 -d
+sources/ddplus_wav/8ch_7.1_standard.wav reference_output/tid187_8ch_7.1_standard.ec3 -d
+sources/ddplus_wav/ChID_voices_51_384_ddp_joc.wav reference_output/tid188_ChID_voices_51_384_ddp_joc.ec3 -d
+sources/ddplus_wav/ChID_voices_71_448_ddp_joc.wav reference_output/tid189_ChID_voices_71_448_ddp_joc.ec3 -d
+sources/ddplus_wav/ChID_voices_71_640_ddp_joc.wav reference_output/tid190_ChID_voices_71_640_ddp_joc.ec3 -d
+sources/ddplus_wav/ddp_evo_passthrough_32L.wav reference_output/tid191_ddp_evo_passthrough_32L.ec3 -d
+sources/dd_es/2ch_typical.ac3 reference_output/tid192_2ch_typical.wav -a
+sources/dd_es/6ch_acmod10.ac3 reference_output/tid193_6ch_acmod10.wav -a
+sources/dd_es/6ch_acmod21.ac3 reference_output/tid194_6ch_acmod21.wav -a
+sources/dd_es/6ch_acmod22.ac3 reference_output/tid195_6ch_acmod22.wav -a
+sources/dd_es/6ch_acmod30.ac3 reference_output/tid196_6ch_acmod30.wav -a
+sources/dd_es/6ch_acmod31.ac3 reference_output/tid197_6ch_acmod31.wav -a
+sources/dd_es/6ch_acmod32.ac3 reference_output/tid198_6ch_acmod32.wav -a
+sources/dd_es/6ch_acmod_sweep.ac3 reference_output/tid199_6ch_acmod_sweep.wav -a
+sources/dd_es/6ch_bsid0.ac3 reference_output/tid200_6ch_bsid0.wav -a
+sources/dd_es/6ch_bsid1.ac3 reference_output/tid201_6ch_bsid1.wav -a
+sources/dd_es/6ch_bsid2.ac3 reference_output/tid202_6ch_bsid2.wav -a
+sources/dd_es/6ch_bsid3.ac3 reference_output/tid203_6ch_bsid3.wav -a
+sources/dd_es/6ch_bsid4.ac3 reference_output/tid204_6ch_bsid4.wav -a
+sources/dd_es/6ch_bsid5.ac3 reference_output/tid205_6ch_bsid5.wav -a
+sources/dd_es/6ch_bsid7.ac3 reference_output/tid206_6ch_bsid7.wav -a
+sources/dd_es/6ch_bsid8.ac3 reference_output/tid207_6ch_bsid8.wav -a
+sources/dd_es/6ch_dd_main_dual_pid.ac3 reference_output/tid208_6ch_dd_main_dual_pid.wav -a
+sources/dd_es/6ch_typical.ac3 reference_output/tid209_6ch_typical.wav -a
+sources/dd_es/error1.ac3 reference_output/tid210_error1.wav -a
+sources/dd_es/error2.ac3 reference_output/tid211_error2.wav -a
+sources/dd_es/error5.ac3 reference_output/tid212_error5.wav -a
+sources/dde_pcm/delay_coherency_25fps.pcm reference_output/tid213_delay_coherency_25fps.dde -d -b24
+sources/dde_pcm/delay_coherency_2997fps.pcm reference_output/tid214_delay_coherency_2997fps.dde -d -b24
+sources/dde_pcm/downmix_1ch_25fps.pcm reference_output/tid215_downmix_1ch_25fps.dde -d -b24
+sources/dde_pcm/downmix_1ch_2997fps.pcm reference_output/tid216_downmix_1ch_2997fps.dde -d -b24
+sources/dde_pcm/downmix_4ch_25fps.pcm reference_output/tid217_downmix_4ch_25fps.dde -d -b24
+sources/dde_pcm/downmix_4ch_2997fps.pcm reference_output/tid218_downmix_4ch_2997fps.dde -d -b24
+sources/dde_pcm/downmix_6ch_25fps.pcm reference_output/tid219_downmix_6ch_25fps.dde -d -b24
+sources/dde_pcm/downmix_6ch_2997fps.pcm reference_output/tid220_downmix_6ch_2997fps.dde -d -b24
+sources/dde_pcm/downmix_8ch_25fps.pcm reference_output/tid221_downmix_8ch_25fps.dde -d -b24
+sources/dde_pcm/downmix_8ch_2997fps.pcm reference_output/tid222_downmix_8ch_2997fps.dde -d -b24
+sources/dde_pcm/error_spacing_25fps.pcm reference_output/tid223_error_spacing_25fps.dde -d -b24
+sources/dde_pcm/error_spacing_2997fps.pcm reference_output/tid224_error_spacing_2997fps.dde -d -b24
+sources/dde_pcm/frame_dropout_25fps.pcm reference_output/tid225_frame_dropout_25fps.dde -d -b24
+sources/dde_pcm/frame_dropout_2997fps.pcm reference_output/tid226_frame_dropout_2997fps.dde -d -b24
+sources/dde_pcm/frame_rate_conversion_2398fps.pcm reference_output/tid227_frame_rate_conversion_2398fps.dde -d -b24
+sources/dde_pcm/frame_rate_conversion_24fps.pcm reference_output/tid228_frame_rate_conversion_24fps.dde -d -b24
+sources/dde_pcm/frame_sync_25fps.pcm reference_output/tid229_frame_sync_25fps.dde -d -b24
+sources/dde_pcm/frame_sync_2997fps.pcm reference_output/tid230_frame_sync_2997fps.dde -d -b24
+sources/dde_pcm/latency_2398fps.pcm reference_output/tid231_latency_2398fps.dde -d -b24
+sources/dde_pcm/latency_24fps.pcm reference_output/tid232_latency_24fps.dde -d -b24
+sources/dde_pcm/latency_25fps.pcm reference_output/tid233_latency_25fps.dde -d -b24
+sources/dde_pcm/latency_2997fps.pcm reference_output/tid234_latency_2997fps.dde -d -b24
+sources/dde_pcm/latency_30fps.pcm reference_output/tid235_latency_30fps.dde -d -b24
+sources/dde_pcm/metadata_out1_25fps.pcm reference_output/tid236_metadata_out1_25fps.dde -d -b24
+sources/dde_pcm/metadata_out2_2997fps.pcm reference_output/tid237_metadata_out2_2997fps.dde -d -b24
+sources/dde_pcm/metadata_out3_25fps.pcm reference_output/tid238_metadata_out3_25fps.dde -d -b24
+sources/dde_pcm/out_chanmap_swp_25fps.pcm reference_output/tid239_out_chanmap_swp_25fps.dde -d -b24
+sources/dde_pcm/out_chanmap_swp_2997fps.pcm reference_output/tid240_out_chanmap_swp_2997fps.dde -d -b24
+sources/dde_pcm/pa_alignment_25fps.pcm reference_output/tid241_pa_alignment_25fps.dde -d -b24
+sources/dde_pcm/pa_alignment_2997fps.pcm reference_output/tid242_pa_alignment_2997fps.dde -d -b24
+sources/dde_pcm/partial_dropout_25fps.pcm reference_output/tid243_partial_dropout_25fps.dde -d -b24
+sources/dde_pcm/partial_dropout_2997fps.pcm reference_output/tid244_partial_dropout_2997fps.dde -d -b24
+sources/dde_pcm/program_play_listen_25fps.pcm reference_output/tid245_program_play_listen_25fps.dde -d -b24
+sources/dde_pcm/program_play_listen_2997fps.pcm reference_output/tid246_program_play_listen_2997fps.dde -d -b24
+sources/dde_pcm/program_play_shift_25fps.pcm reference_output/tid247_program_play_shift_25fps.dde -d -b24
+sources/dde_pcm/program_play_shift_2997fps.pcm reference_output/tid248_program_play_shift_2997fps.dde -d -b24
+sources/dde_pcm/smpte337m_2398fps.pcm reference_output/tid249_smpte337m_2398fps.dde -d -b24
+sources/dde_pcm/smpte337m_24fps.pcm reference_output/tid250_smpte337m_24fps.dde -d -b24
+sources/dde_pcm/smpte337m_25fps.pcm reference_output/tid251_smpte337m_25fps.dde -d -b24
+sources/dde_pcm/smpte337m_2997fps.pcm reference_output/tid252_smpte337m_2997fps.dde -d -b24
+sources/dde_pcm/smpte337m_30fps.pcm reference_output/tid253_smpte337m_30fps.dde -d -b24
+sources/dde_pcm/test_tones_2398fps.pcm reference_output/tid254_test_tones_2398fps.dde -d -b24
+sources/dde_pcm/test_tones_24fps.pcm reference_output/tid255_test_tones_24fps.dde -d -b24
+sources/dde_pcm/test_tones_25fps.pcm reference_output/tid256_test_tones_25fps.dde -d -b24
+sources/dde_pcm/test_tones_2997fps.pcm reference_output/tid257_test_tones_2997fps.dde -d -b24
+sources/dde_pcm/test_tones_30fps.pcm reference_output/tid258_test_tones_30fps.dde -d -b24
+sources/dde_pcm/timecode_25fps.pcm reference_output/tid259_timecode_25fps.dde -d -b24
+sources/dde_pcm/timecode_2997fps.pcm reference_output/tid260_timecode_2997fps.dde -d -b24
+sources/dd_pcm/2ch_typical.pcm reference_output/tid261_2ch_typical.ac3 -d -b16
+sources/dd_pcm/6ch_acmod10.pcm reference_output/tid262_6ch_acmod10.ac3 -d -b16
+sources/dd_pcm/6ch_acmod21.pcm reference_output/tid263_6ch_acmod21.ac3 -d -b16
+sources/dd_pcm/6ch_acmod22.pcm reference_output/tid264_6ch_acmod22.ac3 -d -b16
+sources/dd_pcm/6ch_acmod30.pcm reference_output/tid265_6ch_acmod30.ac3 -d -b16
+sources/dd_pcm/6ch_acmod31.pcm reference_output/tid266_6ch_acmod31.ac3 -d -b16
+sources/dd_pcm/6ch_acmod32.pcm reference_output/tid267_6ch_acmod32.ac3 -d -b16
+sources/dd_pcm/6ch_acmod_sweep.pcm reference_output/tid268_6ch_acmod_sweep.ac3 -d -b16
+sources/dd_pcm/6ch_bsid0.pcm reference_output/tid269_6ch_bsid0.ac3 -d -b16
+sources/dd_pcm/6ch_bsid1.pcm reference_output/tid270_6ch_bsid1.ac3 -d -b16
+sources/dd_pcm/6ch_bsid2.pcm reference_output/tid271_6ch_bsid2.ac3 -d -b16
+sources/dd_pcm/6ch_bsid3.pcm reference_output/tid272_6ch_bsid3.ac3 -d -b16
+sources/dd_pcm/6ch_bsid4.pcm reference_output/tid273_6ch_bsid4.ac3 -d -b16
+sources/dd_pcm/6ch_bsid5.pcm reference_output/tid274_6ch_bsid5.ac3 -d -b16
+sources/dd_pcm/6ch_bsid7.pcm reference_output/tid275_6ch_bsid7.ac3 -d -b16
+sources/dd_pcm/6ch_bsid8.pcm reference_output/tid276_6ch_bsid8.ac3 -d -b16
+sources/dd_pcm/6ch_dd_main_dual_pid.pcm reference_output/tid277_6ch_dd_main_dual_pid.ac3 -d -b16
+sources/dd_pcm/6ch_typical.pcm reference_output/tid278_6ch_typical.ac3 -d -b16
+sources/dd_pcm/error1.pcm reference_output/tid279_error1.ac3 -d -b16
+sources/dd_pcm/error2.pcm reference_output/tid280_error2.ac3 -d -b16
+sources/dd_pcm/error5.pcm reference_output/tid281_error5.ac3 -d -b16
+sources/ddplus_pcm/1ch_ad_dual_pid.pcm reference_output/tid282_1ch_ad_dual_pid.ec3 -d -b16
+sources/ddplus_pcm/1ch_ddp_ad_dual_pid.pcm reference_output/tid283_1ch_ddp_ad_dual_pid.ec3 -d -b16
+sources/ddplus_pcm/2ch_typical.pcm reference_output/tid284_2ch_typical.ec3 -d -b16
+sources/ddplus_pcm/3_stream_640.pcm reference_output/tid285_3_stream_640.ec3 -d -b16
+sources/ddplus_pcm/6ch_acmod10.pcm reference_output/tid286_6ch_acmod10.ec3 -d -b16
+sources/ddplus_pcm/6ch_acmod21.pcm reference_output/tid287_6ch_acmod21.ec3 -d -b16
+sources/ddplus_pcm/6ch_acmod22.pcm reference_output/tid288_6ch_acmod22.ec3 -d -b16
+sources/ddplus_pcm/6ch_acmod30.pcm reference_output/tid289_6ch_acmod30.ec3 -d -b16
+sources/ddplus_pcm/6ch_acmod31.pcm reference_output/tid290_6ch_acmod31.ec3 -d -b16
+sources/ddplus_pcm/6ch_acmod32.pcm reference_output/tid291_6ch_acmod32.ec3 -d -b16
+sources/ddplus_pcm/6ch_acmod_sweep.pcm reference_output/tid292_6ch_acmod_sweep.ec3 -d -b16
+sources/ddplus_pcm/6ch_bsid11.pcm reference_output/tid293_6ch_bsid11.ec3 -d -b16
+sources/ddplus_pcm/6ch_bsid12.pcm reference_output/tid294_6ch_bsid12.ec3 -d -b16
+sources/ddplus_pcm/6ch_bsid13.pcm reference_output/tid295_6ch_bsid13.ec3 -d -b16
+sources/ddplus_pcm/6ch_bsid14.pcm reference_output/tid296_6ch_bsid14.ec3 -d -b16
+sources/ddplus_pcm/6ch_bsid15.pcm reference_output/tid297_6ch_bsid15.ec3 -d -b16
+sources/ddplus_pcm/6ch_err_conceal_7.pcm reference_output/tid298_6ch_err_conceal_7.ec3 -d -b16
+sources/ddplus_pcm/6ch_main_1ch_ad.pcm reference_output/tid299_6ch_main_1ch_ad.ec3 -d -b16
+sources/ddplus_pcm/6ch_main_2ch_ad.pcm reference_output/tid300_6ch_main_2ch_ad.ec3 -d -b16
+sources/ddplus_pcm/6ch_main_dual_pid.pcm reference_output/tid301_6ch_main_dual_pid.ec3 -d -b16
+sources/ddplus_pcm/6ch_substream.pcm reference_output/tid302_6ch_substream.ec3 -d -b16
+sources/ddplus_pcm/6ch_typical.pcm reference_output/tid303_6ch_typical.ec3 -d -b16
+sources/ddplus_pcm/8ch_7.1_standard.pcm reference_output/tid304_8ch_7.1_standard.ec3 -d -b16
+sources/ddplus_pcm/ChID_voices_51_384_ddp_joc.pcm reference_output/tid305_ChID_voices_51_384_ddp_joc.ec3 -d -b16
+sources/ddplus_pcm/ChID_voices_71_448_ddp_joc.pcm reference_output/tid306_ChID_voices_71_448_ddp_joc.ec3 -d -b16
+sources/ddplus_pcm/ChID_voices_71_640_ddp_joc.pcm reference_output/tid307_ChID_voices_71_640_ddp_joc.ec3 -d -b16
+sources/ddplus_pcm/ddp_evo_passthrough_32L.pcm reference_output/tid308_ddp_evo_passthrough_32L.ec3 -d -b16
