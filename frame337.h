@@ -1,5 +1,5 @@
 /************************************************************************************************************
- * Copyright (c) 2016, Dolby Laboratories
+ * Copyright (c) 2021, Dolby Laboratories
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification, are permitted
@@ -53,11 +53,12 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <stdint.h>
 #endif /* UNIX */
 
 /* Enumerations */
 
-enum {AC3=0, EAC3, DOLBYE, UNKNOWN};
+enum {AC3=0, EAC3, DOLBYE, AC4, UNKNOWN};
 enum { FPS_2398 = 1, FPS_24, FPS_25, FPS_2997, FPS_30 };
 enum { BITD16, BITD20, BITD24 };		/* bit depth enumeration */
 enum { WRITE, APPEND };					/* File types						*/
@@ -103,6 +104,33 @@ enum { MODE11, MODE10, MODE20, MODE30, MODE21, MODE31, MODE22, MODE32 };
 
 static const int DDE_BURST_SIZE_2997FPS[DDE_2997_REPRATE] = {3204, 3202, 3204, 3204, 3202};
 
+/* AC4 */
+#define AC4_BURST_SIZE_2398FPS   4004
+#define AC4_BURST_SIZE_24FPS	 4000
+#define AC4_BURST_SIZE_25FPS	 3840
+#define AC4_BURST_SIZE_30FPS	 3200
+#define AC4_BURST_SIZE_4795FPS	 2002
+#define AC4_BURST_SIZE_48FPS	 2000
+#define AC4_BURST_SIZE_50FPS	 1920
+#define AC4_BURST_SIZE_60FPS	 1600
+#define AC4_BURST_SIZE_100FPS	 960
+#define AC4_BURST_SIZE_120FPS	 800
+#define AC4_BURST_SIZE_2343FPS	 4096
+
+#define AC4_BURST_SIZE_2997FPS_HIGH 3204
+#define AC4_BURST_SIZE_2997FPS_LOW 3202
+#define AC4_BURST_SIZE_599FPS_HIGH 1602
+#define AC4_BURST_SIZE_599FPS_LOW 1600
+#define AC4_BURST_SIZE_11988FPS_HIGH 802
+#define AC4_BURST_SIZE_11988FPS_LOW 800
+
+static const int32_t AC4_BURST_SIZE_2997FPS[DDE_2997_REPRATE] = { AC4_BURST_SIZE_2997FPS_HIGH, AC4_BURST_SIZE_2997FPS_LOW, AC4_BURST_SIZE_2997FPS_HIGH, AC4_BURST_SIZE_2997FPS_LOW, AC4_BURST_SIZE_2997FPS_HIGH };
+static const int32_t AC4_BURST_SIZE_599FPS[DDE_2997_REPRATE] = { AC4_BURST_SIZE_599FPS_HIGH, AC4_BURST_SIZE_599FPS_HIGH, AC4_BURST_SIZE_599FPS_LOW, AC4_BURST_SIZE_599FPS_HIGH, AC4_BURST_SIZE_599FPS_HIGH };
+static const int32_t AC4_BURST_SIZE_11988FPS[DDE_2997_REPRATE] = { AC4_BURST_SIZE_11988FPS_LOW, AC4_BURST_SIZE_11988FPS_HIGH, AC4_BURST_SIZE_11988FPS_LOW, AC4_BURST_SIZE_11988FPS_HIGH, AC4_BURST_SIZE_11988FPS_LOW };
+
+/* AC4 Frame Rates */
+enum { AC4_FPS_2398 = 0, AC4_FPS_24, AC4_FPS_25, AC4_FPS_2997, AC4_FPS_30, AC4_FPS_4795, AC4_FPS_48, AC4_FPS_50, AC4_FPS_599, AC4_FPS_60, AC4_FPS_100, AC4_FPS_11988, AC4_FPS_120, AC4_FPS_2343 };
+
 
 #define PRMBLSIZE	4
 #define INITREADSIZE  3 
@@ -113,6 +141,8 @@ static const int DDE_BURST_SIZE_2997FPS[DDE_2997_REPRATE] = {3204, 3202, 3204, 3
 #define SYNC_WD				0x0b77		/* DD/DD+ packed data stream sync word	*/
 #define AAC_ADTS_SYNC_WD	0xfff		/* AAC ADTS sync word */
 #define AAC_LOAS_SYNC_WD	0x2b7		/* AAC LOAS sync word */
+#define AC4SIMPLE_SYNC_WD0	0xac40		/* AC4 simple sync word */
+#define AC4SIMPLE_SYNC_WD1	0xac41		/* AC4 simple sync word */
 #define PREAMBLE_A16		0xf872		/* IEC 958 preamble a (sync word 1) */
 #define PREAMBLE_A20		0x6f872		/* IEC 958 preamble a (sync word 1) */
 #define PREAMBLE_A24		0x96f872	/* IEC 958 preamble a (sync word 1) */
@@ -139,6 +169,7 @@ static const int DDE_BURST_SIZE_2997FPS[DDE_2997_REPRATE] = {3204, 3202, 3204, 3
 #define SMPTE_DDE_ID		28
 #define SMPTE_AAC_ID		10
 #define SMPTE_AACPLUS_ID	11
+#define SMPTE_AC4SIMPLE_ID	24
 
 #define MAXDDBSID  		8
 #define MINDDPBSID		12
@@ -219,7 +250,14 @@ typedef struct
 	int pa_align_changes;
 	int pc_value_changes;
 	int pd_value_changes;
+    int b_ac4_with_crc;
 }File_Info;
+
+typedef struct {
+    unsigned char *p;
+    size_t bytes;
+    unsigned long bit_offs;
+} AC4_BITREADER;
 
 
 /**** User code function prototypes ****/
@@ -239,3 +277,6 @@ int parse_header(FILE *infile, Wave_Struct *wavInfo);
 short bytereverse(short in);
 void print_337_info(int frame_count, const char *pa_alignment_text, int pc_value, int pd_value);
 int get_timeslice(short readtype, uint16_t *inbuf, FILE *fileptr, long *numbytes, SLC_INFO *sinfo, int justinfo, int bufwords);
+unsigned long ac4_bread(AC4_BITREADER *bs, unsigned long nbits);
+int16_t get_ac4_data_type_dependent(int32_t burst_size, int32_t fr_idx);
+int16_t get_ac4_preamble_c(int32_t burst_size, int32_t fr_idx);

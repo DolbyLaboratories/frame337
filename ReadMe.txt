@@ -1,13 +1,12 @@
-Frame337 v2.0.0
+Frame337 v2.1.0
 ===============
 
 Introduction
 ------------
 
-The purpose of this command line tool is to support the conversion of an elementary stream file into a format that can be placed directly onto an AES3 transport. This tool supports AC-3 (Dolby Digital), E-AC-3 (Dolby Digital Plus) and Dolby E.
+The purpose of this command line tool is to support the conversion of an elementary stream file into a format that can be placed directly onto an AES3 transport.
 
-AES3 is a professional audio streaming format which was originally designed to carry linear PCM audio for professional applications. The SMPTE 337 suite of standards (337,338,339, & 340) extended that functionality to support the carriage of encoded audio. Various codecs are supported and a different data type number is associated with each one. These are defined in SMPTE 338. Audio codecs typically support a raw file format which is typically used by file based encoders and decoders. These are called elementary stream files. Elementary stream files containing AC-3 (Dolby Digital) use the '.ac3' extension whereas E-AC-3 (Dolby Digital Plus) uses 'ec3' and Dolby E uses '.dde'.
-It is possible to take an elementary stream file containing raw encoded audio information and play out of a PC equipped with a digital professional sound card and software. To achieve this, the raw elementary stream file first needs to be transformed into a format that a regular audio player can deal with. This most common format is Microsoft RIFF 'wav' files although raw PCM is also sometime used. The frame337 tool provided here performs the transformation from elementary stream file to 'wav' file format as well as in the reverse direction. 
+AES3 is a professional audio streaming format which was orginally designed to carry linear PCM audio for professional applications. The SMPTE 337 suite of standards (337,338,339, & 340) extended that functionality to support the carriage of encoded audio. Various codecs are supported and a different data type number is associated with each one. These are defined in SMPTE 338. It is possible to take an elementary stream file containing raw encoded audio information and play out of a PC equipped with a digital professional sound card and software. To achieve this, the raw elementary stream file first needs to be transformed into a format that a regular audio player can deal with. This most common format is Microsoft RIFF 'wav' files although raw PCM is also sometime used. The frame227 provided here performs the transformation from elementary stream file to 'wav' file format as well as in the reverse direction. This tool supports AC-3 (Dolby Digital), E-AC-3 (Dolby Digital Plus), AC-4, and Dolby E.
 
 Building
 --------

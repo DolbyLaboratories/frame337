@@ -1,5 +1,5 @@
 /************************************************************************************************************
- * Copyright (c) 2016, Dolby Laboratories Inc.
+ * Copyright (c) 2021, Dolby Laboratories Inc.
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification, are permitted
@@ -25,12 +25,13 @@
 /****************************************************************************
  *
  *	File:	frame337.c
- *		AC-3/EC-3/Dolby E smpte conversion program
+ *		AC-4/AC-3/EC-3/Dolby E smpte conversion program
  *
  *		This program converts encoded AC-3, EC-3 or Dolby E files to the SMPTE format
  *		complient with the SMPTE S337M and S340M standards.
  *
  *	History:
+ *      11/20/21    Addition of AC-4
  *      12/12/16    Preparation for open source contribution
  *		11/27/14	Commented legacy code to allow Linux binary build (line 1135, char * p_strn)
  *		2/08/07		Modified spdif.c to correctly support smpte formatting and data types
@@ -47,6 +48,8 @@
 
 /**** Constants ****/
 
+#define ERR_STR_BUF_LEN 256
+
 extern const int16_t frmsizetab [NFSCOD] [NDATARATE];
 extern const int16_t varratetab [NFSCOD] [NDATARATE];
 extern const uint16_t fratetab [NFSCOD];
@@ -62,13 +65,14 @@ int main (int argc, char *argv [])
 {
 	uint16_t iobuf  [BUFWORDSIZE];			/* Holds 1 packed AC-3 frame = 8 AES blocks */
 	uint32_t Eiobuf [MAX_DDE_BURST_SIZE];	/* Holds 1 packed Dolby E frame */
+    unsigned char ac4_work_buffer[MAX_DDE_BURST_SIZE * sizeof(int32_t)];		/* AC-4 work buffer */
 
 	/* iobuf Buffer pointers */
 	uint16_t *p_buf;
 	int i,j;
 
 	SLC_INFO sinfo;
-	File_Info file_info;
+    File_Info file_info = { 0 };
 	long numbytes;
 	short status;
 	int wave_bps;
@@ -97,15 +101,18 @@ int main (int argc, char *argv [])
 	int lastnumblocks;						/* to catch changes in numblocks */
 	int frameset;							/* indicator of complete frame set */
 	int flushbuf = 0;
+    int framesiz = 0;
+    int raw_framesiz = 0;
 	int dolbye;
 	int dde_frame_ctr = 0;
+    int AC4_AES_burst_count = 0;
 	unsigned int accumwords = 0;
 	int no_bit_depth_specified = 0;
 	int scratch_int;
 	short scratch_short;
 	char *in_fname = NULL;
 	char *out_fname = NULL;
-	char errstr[64];				/* string for error message */				
+	char errstr[ERR_STR_BUF_LEN];				/* string for error message */
 	uint16_t altbuf [BUFWORDSIZE];			/* Alternate buffer for 2/3 alignment */
 	int verbose = 0;				/* print progress messages */
 
@@ -123,9 +130,9 @@ int main (int argc, char *argv [])
 	file_info.pd_value_changes = 0;
 
 	/*	Display sign-on banner */
-	fprintf (stderr, "\nCopyright 2007-2016 Dolby Laboratories, Inc. and");
+	fprintf (stderr, "\nCopyright 2007-2021 Dolby Laboratories, Inc. and");
 	fprintf (stderr, "\nDolby Laboratories Licensing Corporation. All Rights Reserved.\n");
-	fprintf (stderr, "\nDolby Digital(AC-3), Dolby Digital Plus (E-AC-3), Dolby E SMPTE Conversion Program Ver 2.0.0\n\n");
+    fprintf(stderr, "\nDolby Digital(AC-3), Dolby Digital Plus (E-AC-3), Dolby AC-4, Dolby E SMPTE Conversion Program Ver 2.1.0\n\n");
 
 	/*	Parse command line arguments */
 	for (i = 1; i < argc; i++)
@@ -206,7 +213,7 @@ int main (int argc, char *argv [])
 		
 		if ((file_info.ac3file = fopen (file_info.ac3fname, "wb")) == NULL)
 		{
-			sprintf (errstr, "decode: Unable to create output file, %s.", file_info.ac3fname);
+			snprintf (errstr, ERR_STR_BUF_LEN, "decode: Unable to create output file, %s.", file_info.ac3fname);
 			error_msg (errstr, FATAL);
 		}
 		
@@ -277,7 +284,7 @@ int main (int argc, char *argv [])
 		
 		if ((file_info.smpte_file = fopen (file_info.smpte_fname, "wb")) == NULL)
 		{
-			sprintf (errstr, "decode: Unable to create output file, %s.", file_info.smpte_fname);
+			snprintf (errstr, ERR_STR_BUF_LEN, "decode: Unable to create output file, %s.", file_info.smpte_fname);
 			error_msg (errstr, FATAL);
 		}
 
@@ -309,6 +316,16 @@ int main (int argc, char *argv [])
 
 			if(*iobuf == SYNC_WD || *iobuf == SYNC_WD_REV)
 				file_info.stream_type = AC3;
+            else if (((bytereverse(*iobuf) & 0xffff)) == AC4SIMPLE_SYNC_WD0)
+            {
+                file_info.stream_type = AC4;	// without CRC
+                file_info.b_ac4_with_crc = 0;
+            }
+            else if (((bytereverse(*iobuf) & 0xffff)) == AC4SIMPLE_SYNC_WD1)
+            {
+                file_info.stream_type = AC4;	// with CRC
+                file_info.b_ac4_with_crc = 1;
+            }
 			else
 				file_info.stream_type = -1;
 
@@ -391,7 +408,7 @@ int main (int argc, char *argv [])
 
 			if (fwrite ((void *)Eiobuf, 3, burst_size, file_info.smpte_file) != (size_t) burst_size)
 			{
-				sprintf (errstr, "decode: Unable to write to output file, %s.", file_info.smpte_fname);
+				snprintf (errstr, ERR_STR_BUF_LEN, "decode: Unable to write to output file, %s.", file_info.smpte_fname);
 				error_msg (errstr, FATAL);
 			}
 
@@ -517,7 +534,7 @@ int main (int argc, char *argv [])
 
 					if((unsigned int) accumwords > (unsigned int) burst_size - 4)
 					{					
-						sprintf(errstr, "decode: Accumulation of frameset data exceeds 1.536Mbps data limit");
+						snprintf(errstr, ERR_STR_BUF_LEN, "decode: Accumulation of frameset data exceeds 1.536Mbps data limit");
 						error_msg(errstr, FATAL);
 					}
 
@@ -576,7 +593,7 @@ int main (int argc, char *argv [])
 					}
 					if (fwrite ((void *)altbuf, 2, burst_size, file_info.smpte_file) != (size_t) burst_size)
 					{
-						sprintf (errstr, "decode: Unable to write to output file, %s.", file_info.smpte_fname);
+						snprintf (errstr, ERR_STR_BUF_LEN, "decode: Unable to write to output file, %s.", file_info.smpte_fname);
 						error_msg (errstr, FATAL);
 					}
 				}
@@ -584,16 +601,208 @@ int main (int argc, char *argv [])
 				{
 					if (fwrite ((void *)iobuf, 2, burst_size, file_info.smpte_file) != (size_t) burst_size)
 					{
-						sprintf (errstr, "decode: Unable to write to output file, %s.", file_info.smpte_fname);
+						snprintf (errstr, ERR_STR_BUF_LEN, "decode: Unable to write to output file, %s.", file_info.smpte_fname);
 						error_msg (errstr, FATAL);
 					}
 				}
 
 			}
 		} /* if ac3 or eac3 */
+        else if (file_info.stream_type == AC4)
+        {
+            unsigned char tmp_byte;
+            /* temp buf for bsreader */
+            unsigned char buf[1024];
+            AC4_BITREADER bs = { buf, 1024, 0 };
+            size_t nbytes;
+            unsigned char *temp_p;
+            int bs_ver, seq_cnt, wait_frames, br_code, fs_idx, fr_idx;
+            int read_offset;
+
+            size_t rdlen, wrlen;
+
+            wave_bps = 16;
+            wave_frate = 48000; /* fixed for now */
+
+            /* determine the AC4 frame size (in bytes) */
+            rdlen = fread(ac4_work_buffer, 1, 4, file_info.ac3file);
+
+            /* this byte swapping is somewhat of a hack; proper way is ntohs() and ntohl()? */
+            if (ac4_work_buffer[2] == 0xFF && ac4_work_buffer[3] == 0xFF) {
+                /* extended length field! extend current 16 bit field by an additional 24 bit */
+                rdlen += fread(&ac4_work_buffer[4], 1, 3, file_info.ac3file);
+#ifdef LITEND
+
+                framesiz = (int32_t)((((uint32_t)ac4_work_buffer[4]) << 16) | (((uint32_t)ac4_work_buffer[5]) << 8) | ((uint32_t)ac4_work_buffer[6]));
+#else
+                framesiz = (int32_t)((((uint32_t)ac4_work_buffer[6]) << 16) | (((uint32_t)ac4_work_buffer[5]) << 8) | ((uint32_t)ac4_work_buffer[4]));
+#endif
+                raw_framesiz = framesiz;
+                framesiz += 7;	// +2 for sync, +5 for the now (2+3)-sized len field
+            }
+            else {
+#ifdef LITEND
+                framesiz = (int32_t)((((uint32_t)ac4_work_buffer[2]) << 8) | ((uint32_t)ac4_work_buffer[3]));
+#else
+                framesiz = (int32_t)((((uint32_t)ac4_work_buffer[3]) << 8) | ((uint32_t)ac4_work_buffer[2]));
+#endif
+                raw_framesiz = framesiz;
+                framesiz += 4; // +4 for sync and framelen
+            }
+            if (file_info.b_ac4_with_crc) framesiz += 2;	// +2 for CRC, in case it's the CRC variant
+
+            if (framesiz > sizeof(ac4_work_buffer)) {
+                // currently buffer is static. until it's malloced, check for buffer overflows!
+                error_msg("AC-4 frame size too big for buffer", FATAL);
+            }
+
+            nbytes = raw_framesiz;
+            /* read a max of 1024 just for bitstream parsing of the frame rate */
+            if (nbytes > 1024) nbytes = 1024;
+
+            /* read into bs buf */
+            if (nbytes != fread(buf, 1, nbytes, file_info.ac3file))
+            {
+                error_msg("File read error", FATAL);
+            }
+
+            bs.bytes = nbytes;
+
+            /* bs version */
+            bs_ver = ac4_bread(&bs, 2);
+            /* seq counter */
+            seq_cnt = ac4_bread(&bs, 10);
+            /* wait frames */
+            if (ac4_bread(&bs, 1))
+            {
+                wait_frames = ac4_bread(&bs, 3);
+                if (wait_frames > 0)
+                {
+                    br_code = ac4_bread(&bs, 2);
+                }
+            }
+            /* sample rate */
+            fs_idx = ac4_bread(&bs, 1);
+            if (!(fs_idx))
+            {
+                error_msg("AC-4 sample rate must be 48 kHz", FATAL);
+            }
+            /* frame rate */
+            fr_idx = ac4_bread(&bs, 4);
+
+            rdlen += nbytes;
+
+            read_offset = rdlen;
+
+            /* return file pointer to frame start */
+            fseek(file_info.ac3file, -read_offset, SEEK_CUR);
+
+            /* clear temp bread buf */
+            memset(buf, 0, sizeof(buf));
+
+            /* clear the SMPTE burst buffer */
+            memset(ac4_work_buffer, 0, sizeof(ac4_work_buffer));
+
+            /* read in the entire AC4 frame (offset 4 SMPTE preamble words - 8 bytes) */
+            rdlen = fread(&ac4_work_buffer[8], 1, framesiz, file_info.ac3file);
+            if (rdlen != framesiz) {
+                error_msg("File read error", FATAL);
+            }
+
+            p_buf = (uint16_t *)ac4_work_buffer;
+
+            /* write preambles */
+            *p_buf++ = PREAMBLE_A16;
+            *p_buf++ = PREAMBLE_B16;
+
+            burst_size = 4096;	// default burst size.. in 16 bit pairs (= samples), i.e. size in bytes is *2 that value!
+
+            switch (fr_idx)
+            {
+            case AC4_FPS_2398:
+                burst_size = AC4_BURST_SIZE_2398FPS;
+                break;
+            case AC4_FPS_24:
+                burst_size = AC4_BURST_SIZE_24FPS;
+                break;
+            case AC4_FPS_25:
+                burst_size = AC4_BURST_SIZE_25FPS;
+                break;
+            case AC4_FPS_2997:
+                burst_size = AC4_BURST_SIZE_2997FPS[AC4_AES_burst_count % DDE_2997_REPRATE]; // same burst pattern as DE
+                break;
+            case AC4_FPS_30:
+                burst_size = AC4_BURST_SIZE_30FPS;
+                break;
+            case AC4_FPS_4795:
+                burst_size = AC4_BURST_SIZE_4795FPS;
+                break;
+            case AC4_FPS_48:
+                burst_size = AC4_BURST_SIZE_48FPS;
+                break;
+            case AC4_FPS_50:
+                burst_size = AC4_BURST_SIZE_50FPS;
+                break;
+            case AC4_FPS_599:
+                burst_size = AC4_BURST_SIZE_599FPS[AC4_AES_burst_count % DDE_2997_REPRATE];
+                break;
+            case AC4_FPS_60:
+                burst_size = AC4_BURST_SIZE_60FPS;
+                break;
+            case AC4_FPS_100:
+                burst_size = AC4_BURST_SIZE_100FPS;
+                break;
+            case AC4_FPS_11988:
+                burst_size = AC4_BURST_SIZE_11988FPS[AC4_AES_burst_count % DDE_2997_REPRATE];
+                break;
+            case AC4_FPS_120:
+                burst_size = AC4_BURST_SIZE_120FPS;
+                break;
+            case AC4_FPS_2343:
+                burst_size = AC4_BURST_SIZE_2343FPS;
+                break;
+            default:
+                snprintf(errstr, ERR_STR_BUF_LEN, "Unsupported AC-4 frame rate (%i)", fr_idx);
+                error_msg(errstr, FATAL);
+                break;
+            }
+            AC4_AES_burst_count++;
+
+            /* safety check parameters..
+            * - burst size bigger than buffer size? In that case we'd read raw memory
+            * - burst size smaller than the AC-4 frame plus SMPTE header? In that case we'd truncate the data!
+            */
+            if (burst_size * 2 > sizeof(ac4_work_buffer)) 
+            {
+                error_msg("AC-4 frame size too big for buffer", FATAL);
+            }
+            if (burst_size * 2 < framesiz + 4)
+            {
+                error_msg("AC-4 frame size too big for buffer", FATAL);
+            }
+
+            *p_buf++ = get_ac4_preamble_c(burst_size, fr_idx); 	/* Preamble C - AC4SIMPLE data type */
+            *p_buf++ = (int16_t)(framesiz * 8);	/* Preamble D - payload size in bits */
+
+            /* byte reverse the payload */
+            temp_p = (unsigned char *)p_buf;
+
+            for (i = 0; i < ((framesiz / 2) + 1); i++)
+            {
+                tmp_byte = temp_p[(i * 2)];
+                temp_p[(i * 2)] = temp_p[(i * 2) + 1];
+                temp_p[(i * 2) + 1] = tmp_byte;
+            }
+
+            /* write out the SMPTE burst to file */
+            wrlen = fwrite(ac4_work_buffer, 2, burst_size, file_info.smpte_file);
+            if (wrlen != burst_size) {
+                error_msg("File write error", FATAL);
+            }
+        }
 		else
 		{
-			sprintf (errstr,"input file type not recognized");
+			snprintf (errstr, ERR_STR_BUF_LEN, "input file type not recognized");
 			error_msg (errstr, FATAL);	
 		}
 	}	/* while */
@@ -629,13 +838,13 @@ int main (int argc, char *argv [])
 
 	if (fclose (file_info.smpte_file))
 	{
-		sprintf (errstr,"decode: Unable to close output file, %s.", file_info.smpte_fname);
+		snprintf (errstr, ERR_STR_BUF_LEN, "decode: Unable to close output file, %s.", file_info.smpte_fname);
 		error_msg (errstr, FATAL);
 	}
 
 	if (fclose (file_info.ac3file))
 	{
-		sprintf(errstr, "decode: Unable to close input file, %s.", file_info.ac3fname);
+		snprintf(errstr, ERR_STR_BUF_LEN, "decode: Unable to close input file, %s.", file_info.ac3fname);
 		error_msg (errstr, FATAL);
 	}
 
@@ -720,6 +929,8 @@ int getsync (File_Info *file_info, uint8_t *dfbuf) {
 		file_info->stream_type = AC3;
 	else if(((word32val >> file_info->shiftbits) & 0x0000001F) == SMPTE_DDE_ID)
 		file_info->stream_type = DOLBYE;
+    else if (((word32val >> file_info->shiftbits) & 0x0000001F) == SMPTE_AC4SIMPLE_ID)
+        file_info->stream_type = AC4;
 	else
 		file_info->stream_type = UNKNOWN;
 
@@ -763,6 +974,18 @@ int getsync (File_Info *file_info, uint8_t *dfbuf) {
 		//return the DDE burst size + (4*bps); //+4 to compensate for the IEC header words
 		return (int)(word32val + (4 * file_info->bit_depth));
 	}
+    else if (file_info->stream_type == AC4)
+    {
+        word32val = getword32value((unsigned char *)dfbuf + (file_info->bytes_per_word * 2), file_info->bits_per_sample);
+
+        fseek(file_info->smpte_file, -file_info->bytes_per_word, SEEK_CUR);
+
+        /* calculate burst size */
+        word32val = getword32value((unsigned char *)dfbuf + file_info->bytes_per_word, file_info->bits_per_sample);
+        word32val = (word32val >> (file_info->bits_per_sample - file_info->bit_depth));
+
+        return (int32_t)word32val;
+    }
 	else // unknown data
 	{
 		fseek(file_info->smpte_file, -file_info->bytes_per_word, SEEK_CUR);
@@ -809,7 +1032,7 @@ int deformat (File_Info *file_info, int verbose)
 	int pa_alignment;
 	double pa_spacing_average;
 	int pc_value, pd_value;
-	char errstr[64];				/* string for error message */				
+	char errstr[ERR_STR_BUF_LEN];				/* string for error message */
 
 
 #ifdef LITEND
@@ -821,7 +1044,7 @@ int deformat (File_Info *file_info, int verbose)
 	else if(file_info->bits_per_sample == 32){ file_info->shiftbits = 16; }
 	else { error_msg ("Unknown bit depth", FATAL); }
 
-/*	Read frames of AC-3, EC-3, or Dolby E data */
+/*	Read frames of AC-3, EC-3, AC-4, or Dolby E data */
 
 		while ((nbits = getsync (file_info, dfbuf)))
 		{
@@ -910,9 +1133,13 @@ int deformat (File_Info *file_info, int verbose)
 
 				if(file_info->bits_per_sample == 16)
 				{
+                    int nwords = nbits / 16;
+                    if (nbits % 16)
+                        nwords++;
+
 					shortbuf = (uint16_t *)dfbuf;
 
-					for (i = 0; i < (nbits/16); i ++)
+					for (i = 0; i < nwords; i ++)
 					{
 						j = shortbuf [i];
 						k = ( j >> 8 ) & 0x00ff;
@@ -929,7 +1156,7 @@ int deformat (File_Info *file_info, int verbose)
 					if(fwrite((void *)dde_temp_buf, 4, (nbits / file_info->bit_depth), file_info->ac3file) 
 						!= (size_t) (nbits / file_info->bit_depth))
 					{
-						sprintf (errstr, "decode: Unable to write to output file, %s.", file_info->ac3fname);
+						snprintf (errstr, ERR_STR_BUF_LEN, "decode: Unable to write to output file, %s.", file_info->ac3fname);
 						error_msg (errstr, FATAL);
 					}
 				}
@@ -938,10 +1165,19 @@ int deformat (File_Info *file_info, int verbose)
 					convertbuffer(dfbuf, (void *)dd_temp_buf, file_info->bits_per_sample, 16, nbits, file_info->bit_depth);
 					if(fwrite((void *)dd_temp_buf, 1, (nbits / 8), file_info->ac3file) != (size_t) (nbits / 8))
 					{
-							sprintf (errstr, "decode: Unable to write to output file, %s.", file_info->ac3fname);
+							snprintf (errstr, ERR_STR_BUF_LEN, "decode: Unable to write to output file, %s.", file_info->ac3fname);
 							error_msg (errstr, FATAL);
 					}	
 				}
+                else if (file_info->stream_type == AC4) //AC-4
+                {
+                    convertbuffer(dfbuf, (void *)dd_temp_buf, file_info->bits_per_sample, 16, nbits, file_info->bit_depth);
+                    if (fwrite((void *)dd_temp_buf, 1, (nbits / 8), file_info->ac3file) != (size_t)(nbits / 8))
+                    {
+                        snprintf(errstr, ERR_STR_BUF_LEN, "decode: Unable to write to output file, %s.", file_info->ac3fname);
+                        error_msg(errstr, FATAL);
+                    }
+                }
 				// ensure we're aligned to a word boundary
 				// to begin searching for next SMPTE preamble
 				if((remaining_bytes = (nreadbytes % file_info->bytes_per_word)))
@@ -958,13 +1194,13 @@ int deformat (File_Info *file_info, int verbose)
 
 	if (fclose (file_info->smpte_file))
 	{
-		sprintf (errstr, "decode: Unable to close input file, %s.", file_info->smpte_fname);
+		snprintf (errstr, ERR_STR_BUF_LEN, "decode: Unable to close input file, %s.", file_info->smpte_fname);
 		error_msg (errstr, FATAL);
 	}
 
 	if (fclose (file_info->ac3file))
 	{
-		sprintf (errstr, "decode: Unable to close output file, %s.", file_info->ac3fname);
+		snprintf (errstr, ERR_STR_BUF_LEN, "decode: Unable to close output file, %s.", file_info->ac3fname);
 		error_msg (errstr, FATAL);
 	}
 
@@ -1367,6 +1603,7 @@ int parse_header(FILE *infile, Wave_Struct *wavInfo)
 {
 	char headerbytes[5] = "";
 	int subchunk_size;
+    uint16_t short_val;
 
 	if (infile != NULL)
 	{		
@@ -1405,13 +1642,15 @@ int parse_header(FILE *infile, Wave_Struct *wavInfo)
 
 					fseek(infile, 2, SEEK_CUR);
 
-					fread(&wavInfo->nchannels, 2, 1, infile);
+					fread(&short_val, 2, 1, infile);
+                    wavInfo->nchannels = short_val;
 
 					fread(&wavInfo->sample_rate, 4, 1, infile);
 
 					fseek(infile, 6, SEEK_CUR);
 
-					fread(&wavInfo->nbits, 2, 1, infile);
+					fread(&short_val, 2, 1, infile);
+                    wavInfo->nbits = short_val;
 
 					if(subchunk_size > 16)	/* if necessary, advance beyond remaining subchunk bytes */
 						fseek(infile, subchunk_size - 16, SEEK_CUR);
@@ -1701,4 +1940,87 @@ uint32_t *BitUnp_rj(
 	}
 
 	return(in_buf);
-}	
+}
+
+/* AC4 bitstream reader */
+unsigned long ac4_bread(
+    AC4_BITREADER *bs,
+    unsigned long nbits
+)
+{
+    unsigned long out = 0;
+
+    while (nbits > 0)
+    {
+        unsigned long bits_left = 8 - bs->bit_offs;
+        unsigned long s = *bs->p;
+        s &= (0xffUL >> bs->bit_offs);
+        if (nbits > bits_left)
+        {
+            out = (out << bits_left) + s;
+            nbits -= bits_left;
+            bs->bit_offs = 0;
+            if (bs->bytes)
+            {
+                bs->p++;
+                bs->bytes--;
+            }
+        }
+        else
+        {
+            s = s >> (bits_left - nbits);
+            out = (out << nbits) + s;
+            bs->bit_offs += nbits;
+            nbits = 0;
+        }
+    }
+
+    return out;
+}
+
+int16_t get_ac4_data_type_dependent(int32_t burst_size, int32_t fr_idx) {
+    switch (burst_size) {
+    case AC4_BURST_SIZE_2398FPS:
+        return 0;
+    case AC4_BURST_SIZE_24FPS:
+        return 1;
+    case AC4_BURST_SIZE_25FPS:
+        return 2;
+    case AC4_BURST_SIZE_2997FPS_HIGH:
+    case AC4_BURST_SIZE_2997FPS_LOW:
+        return 3;
+    case AC4_BURST_SIZE_30FPS:
+        return 4;
+    case AC4_BURST_SIZE_4795FPS:
+        return 5;
+    case AC4_BURST_SIZE_48FPS:
+        return 6;
+    case AC4_BURST_SIZE_50FPS:
+        return 7;
+    case AC4_BURST_SIZE_599FPS_HIGH:
+        return 8;
+    case AC4_BURST_SIZE_60FPS:
+        if (fr_idx == AC4_FPS_599)
+            return 8;
+        return 9;
+    case AC4_BURST_SIZE_100FPS:
+        return 10;
+    case AC4_BURST_SIZE_11988FPS_HIGH:
+        return 11;
+    case AC4_BURST_SIZE_120FPS:
+        if (fr_idx == AC4_FPS_11988)
+            return 11;
+        return 12;
+    case AC4_BURST_SIZE_2343FPS:
+        return 13;
+    default:
+        error_msg("Unrecognized AC-4 burst size. Failed to create preamble C", FATAL);
+        break;
+    }
+    return 0;
+}
+
+int16_t get_ac4_preamble_c(int32_t burst_size, int32_t fr_idx) {
+    const int16_t data_type_dependent = get_ac4_data_type_dependent(burst_size, fr_idx);
+    return (int16_t)(SMPTE_AC4SIMPLE_ID) | (data_type_dependent << 8);
+}

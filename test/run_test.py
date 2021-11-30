@@ -46,6 +46,7 @@ import sys
 tools_dir = '../Release/'
 os_dir = subprocess.check_output('uname', shell=True)
 ref_frame337 = 'ref_bin/' + os_dir.strip() + '/smpte.exe'
+ref_frame337_ac4 =  'ref_bin/' + os_dir.strip() + '/smpte_app_lin64_ac4'
 dut_frame337 = tools_dir + os_dir.strip() + '/frame337'
 
 # Enums
@@ -88,11 +89,21 @@ class Tester:
 	def create_test_cases(self, arguments, input_file, output_ext):
 		file_stem = os.path.splitext(os.path.basename(input_file))[0]
 		ref_output_file_name = 'reference_output/tid' + (str(self.test_id)).zfill(3) + '_' + file_stem + output_ext
-		cmd = ref_frame337 + ' ' + arguments + ' -i' + input_file + ' -o' + ref_output_file_name
+		if '.ac4' in output_ext or '.ac4' in input_file:
+			cmd = ref_frame337_ac4 + ' ' + arguments + ' -i' + input_file + ' -o' + ref_output_file_name
+		else:
+			cmd = ref_frame337 + ' ' + arguments + ' -i' + input_file + ' -o' + ref_output_file_name
 		print "Reference output cmd: " + cmd
 		ref_test_output = subprocess.check_output(cmd , stderr=subprocess.STDOUT,shell=True)
 		print ref_test_output
 		self.f.write(input_file + ' ' + ref_output_file_name + ' ' + arguments + '\n')
+		# ref AC-4 smpte tool does not support PCM input so create a test case using the PCM input signal
+		# but the same reference output file as from the corresponding .wav file, since the results
+		# should be identical
+		if '.ac4' in output_ext and '.wav' in input_file:
+			input_file_pcm = input_file.replace('ac4_wav', 'ac4_pcm')
+			input_file_pcm = input_file_pcm.replace('.wav', '.pcm')
+			self.f.write(input_file_pcm + ' ' + ref_output_file_name + ' ' + arguments + ' -b16' + '\n')
 		self.test_id += 1
 
 	def run_test_cases(self):
@@ -156,6 +167,11 @@ def main():
 	ddplus_wav = 'sources/ddplus_wav'
 	ddplus_es = 'sources/ddplus_es'
 	ddplus_pcm = 'sources/ddplus_pcm'
+    
+	ac4_wav = 'sources/ac4_wav'
+	ac4_es = 'sources/ac4_es'
+	ac4_pcm = 'sources/ac4_pcm'
+    
 	error_es = 'sources/error_es'
 
 	# Establish consistent mode of operation
@@ -188,6 +204,9 @@ def main():
 		ddplus_es_files = glob.glob(ddplus_es + '/*.ec3')
 		ddplus_wav_files = glob.glob(ddplus_wav + '/*.wav')
 		ddplus_pcm_files = glob.glob(ddplus_pcm + '/*.pcm')
+		ac4_es_files = glob.glob(ac4_es + '/*.ac4')
+		ac4_wav_files = glob.glob(ac4_wav + '/*.wav')
+		ac4_pcm_files = glob.glob(ac4_pcm + '/*.pcm')
 
 		mss_ddplus_wav_files = '3_stream_640.wav', '6ch_main_1ch_ad.wav', '6ch_main_2ch_ad.wav', '6ch_substream.wav', '8ch_7.1_standard.wav', 'ChID_voices_71_448_ddp_joc.wav', 'ChID_voices_71_640_ddp_joc.wav'
 		mss_ddplus_wav_files = [ddplus_wav + '/' + s for s in mss_ddplus_wav_files]
@@ -223,6 +242,12 @@ def main():
 			Tester1.create_test_cases('-d -b16', input_file, '.ac3')
 		for input_file in ddplus_pcm_files:
 			Tester1.create_test_cases('-d -b16', input_file, '.ec3')
+		print "Basic AC-4 formatting"
+		for input_file in ac4_es_files:
+			Tester1.create_test_cases('', input_file, '.wav')	
+		print "Basic AC-4 deformatting"
+		for input_file in ac4_wav_files:
+			Tester1.create_test_cases('-d', input_file, '.ac4')
 		return(0)
 
 	# For generating sources
