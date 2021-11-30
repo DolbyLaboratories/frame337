@@ -857,16 +857,16 @@ void show_usage (void)
 	puts(
 		"Usage: frame337 [-h][-i<filename.ext>][-o<filename.ext>][-a][-b][-v][-d][-n<#>]\n"
 		"       -h     Show this usage message and abort\n"
-		"       -i     Input AC-3, E-AC-3, or Dolby E file name \n"
+		"       -i     Input AC-3, E-AC-3, AC-4 or Dolby E file name \n"
 		"              (default output.ac3) (or .smp if deformat)\n"
 		"       -o     Output SMPTE337 file name (default output.wav) (or .ext if deformat)\n"
 		"       -a     Use alternate packing method - aligns 2/3 pt \n"
-		"              (not valid for E-AC-3 or Dolby E files)\n"
+		"              (not valid for E-AC-3, AC-4 or Dolby E files)\n"
 		"       -b     Bits per sample of input file. Default = 16. \n"
 		"              (only used for deformatting)\n"
 		"       -v     Verbose mode. \n"
 		"              Display frame # and % done (SMPTE 337M status if deformat)\n"
-		"       -d     Deformat. Output AC-3, E-AC-3 or Dolby E file\n"
+		"       -d     Deformat. Output AC-3, E-AC-3, AC-4 or Dolby E file\n"
 		"              from SMPTE file\n"
 	);
 	exit(1);
