@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 #-------------------------------------------------------------------------------------------------------------
-# Copyright (c) 2016, Dolby Laboratories Inc.
+# Copyright (c) 2025, Dolby Laboratories Inc.
 # All rights reserved.
 
 # Redistribution and use in source and binary forms, with or without modification, are permitted
@@ -44,7 +44,7 @@ import sys
 
 # Generate additional test assets
 tools_dir = '../Release/'
-os_dir = subprocess.check_output('uname', shell=True)
+os_dir = subprocess.run('uname', capture_output=True).stdout.decode('utf-8')
 ref_frame337 = 'ref_bin/' + os_dir.strip() + '/smpte.exe'
 ref_frame337_ac4 =  'ref_bin/' + os_dir.strip() + '/smpte_app_lin64_ac4'
 dut_frame337 = tools_dir + os_dir.strip() + '/frame337'
@@ -62,11 +62,11 @@ def process_files(arguments, input_dir, input_ext, tool_exec, output_dir, output
 		file_stem = os.path.splitext(os.path.basename(input_file))[0]
 		output_file_name = output_dir + '/' + file_stem + output_ext
 		proc_file_output = subprocess.check_output( tool_exec + ' ' + arguments + ' -i' + input_file + ' -o' + output_file_name , stderr=subprocess.STDOUT,shell=True)
-		print proc_file_output
+		print (proc_file_output)
 		if (not(os.path.isfile(output_file_name)) and (os.path.getsize(output_file_name) > 0)):
-			print "Creation of %s failed" % output_file_name
+			print ("Creation of %s failed" % output_file_name)
 			return
-		print "Created %s" % output_file_name
+		print ("Created %s" % output_file_name)
 	
 
 class Tester:
@@ -93,9 +93,9 @@ class Tester:
 			cmd = ref_frame337_ac4 + ' ' + arguments + ' -i' + input_file + ' -o' + ref_output_file_name
 		else:
 			cmd = ref_frame337 + ' ' + arguments + ' -i' + input_file + ' -o' + ref_output_file_name
-		print "Reference output cmd: " + cmd
+		print ("Reference output cmd: " + cmd)
 		ref_test_output = subprocess.check_output(cmd , stderr=subprocess.STDOUT,shell=True)
-		print ref_test_output
+		print (ref_test_output)
 		self.f.write(input_file + ' ' + ref_output_file_name + ' ' + arguments + '\n')
 		# ref AC-4 smpte tool does not support PCM input so create a test case using the PCM input signal
 		# but the same reference output file as from the corresponding .wav file, since the results
@@ -120,14 +120,14 @@ class Tester:
 						arguments = ''
 					dut_output_file_name = 'dut_output/tid' + (str(self.test_id)).zfill(3) + '_' + file_stem + os.path.splitext(ref_output_file_name)[1]
 					cmd = dut_frame337 + ' ' + arguments + ' -i' + input_file + ' -o' + dut_output_file_name
-					print "DUT cmd: " + cmd
+					print ("DUT cmd: " + cmd)
 					dut_test_output = subprocess.check_output(cmd , stderr=subprocess.STDOUT, shell=True)
-					print dut_test_output
+					print (dut_test_output)
 					if(filecmp.cmp(ref_output_file_name, dut_output_file_name)):
-						print input_file + " -> " + dut_output_file_name + " Passed"
+						print (input_file + " -> " + dut_output_file_name + " Passed")
 						self.passed += 1
 					else:
-						print input_file + " -> " + dut_output_file_name + " Failed"
+						print (input_file + " -> " + dut_output_file_name + " Failed")
 						self.failed += 1
 					self.test_id += 1
 				else:
@@ -137,20 +137,20 @@ class Tester:
 		file_stem = os.path.splitext(os.path.basename(input_file))[0]
 		dut_output_file_name = 'dut_output/tid' + (str(self.test_id)).zfill(3) + '_' + file_stem + output_ext
 		cmd = dut_frame337 + ' ' + arguments + ' -i' + input_file + ' -o' + dut_output_file_name
-		print "DUT cmd: " + cmd
+		print ("DUT cmd: " + cmd)
 		return_code = subprocess.call(cmd , stderr=subprocess.STDOUT, shell=True)
 		if ((return_code != 0 ) and (not(os.path.isfile(dut_output_file_name)) or (os.path.getsize(dut_output_file_name) == 0))):
-			print "Error case " + input_file + " -> " + dut_output_file_name + " Passed"
+			print ("Error case " + input_file + " -> " + dut_output_file_name + " Passed")
 			self.passed += 1
 		else:
-			print "Error case "+ input_file + " -> " + dut_output_file_name + " Failed"
+			print ("Error case "+ input_file + " -> " + dut_output_file_name + " Failed")
 			self.failed += 1
 		self.test_id += 1
 
 	def print_report(self):
-		print "Number of tests completed: " + str(self.test_id - 1)
-		print "Number of tests passed: " + str(self.passed)
-		print "Number of tests failed: " + str(self.failed)
+		print ("Number of tests completed: " + str(self.test_id - 1))
+		print ("Number of tests passed: " + str(self.passed))
+		print ("Number of tests failed: " + str(self.failed))
 
 def main():
 	# Resources
@@ -190,7 +190,7 @@ def main():
 	# For generating references
 	# This section also generates the test case file
 	if (op_mode == Op_modes.references):
-		print "Generating References"
+		print ("Generating References")
 		os.system( 'rm -fR reference_output' )
 		os.system( 'mkdir -p reference_output' )
 
@@ -212,28 +212,28 @@ def main():
 		mss_ddplus_wav_files = [ddplus_wav + '/' + s for s in mss_ddplus_wav_files]
 
 		# Create reference cases
-		print "Basic Dolby E formatting"
+		print ("Basic Dolby E formatting")
 		for input_file in dde_es_files:
 			Tester1.create_test_cases('', input_file, '.wav')
-		print "Basic Dolby E deformatting"
+		print ("Basic Dolby E deformatting")
 		for input_file in dde_wav_files:
 			Tester1.create_test_cases('-d', input_file, '.dde')
-		print "Basic DD formatting"
+		print ("Basic DD formatting")
 		for input_file in dd_es_files:
 			Tester1.create_test_cases('', input_file, '.wav')	
-		print "Basic DD deformatting"
+		print ("Basic DD deformatting")
 		for input_file in dd_wav_files:
 			Tester1.create_test_cases('-d', input_file, '.ac3')	
-		print "Basic DD+ formatting"
+		print ("Basic DD+ formatting")
 		for input_file in ddplus_es_files:
 			Tester1.create_test_cases('', input_file, '.wav')	
-		print "Basic DD+ deformatting"
+		print ("Basic DD+ deformatting")
 		for input_file in ddplus_wav_files:
 			Tester1.create_test_cases('-d', input_file, '.ec3')
-		print "DD alternate packing method"
+		print ("DD alternate packing method")
 		for input_file in dd_es_files:
 			Tester1.create_test_cases('-a', input_file, '.wav')
-		print "Deformatting from PCM (24bit or 32bit for Dolby E, 16bit for DD/DD+)"
+		print ("Deformatting from PCM (24bit or 32bit for Dolby E, 16bit for DD/DD+)")
 		for input_file in dde_pcm_files:
 			Tester1.create_test_cases('-d -b24', input_file, '.dde')
 		for input_file in dde_pcm32_files:
@@ -242,25 +242,25 @@ def main():
 			Tester1.create_test_cases('-d -b16', input_file, '.ac3')
 		for input_file in ddplus_pcm_files:
 			Tester1.create_test_cases('-d -b16', input_file, '.ec3')
-		print "Basic AC-4 formatting"
+		print ("Basic AC-4 formatting")
 		for input_file in ac4_es_files:
 			Tester1.create_test_cases('', input_file, '.wav')	
-		print "Basic AC-4 deformatting"
+		print ("Basic AC-4 deformatting")
 		for input_file in ac4_wav_files:
 			Tester1.create_test_cases('-d', input_file, '.ac4')
 		return(0)
 
 	# For generating sources
 	if (op_mode == Op_modes.sources):
-		print "Generating source files"
+		print ("Generating source files")
 		os.system( 'rm -fR ' + dde_es + ' ' + dde_wav + ' ' + dd_es + ' ' + dd_wav + ' ' + ddplus_es + ' ' + ddplus_wav )
 		os.system( 'mkdir -p ' + dde_es + ' ' + dde_wav + ' ' + dd_es + ' ' + dd_wav + ' ' + ddplus_es + ' ' + ddplus_wav )
-		print "Generating source pcm files"
+		print ("Generating source pcm files")
 		process_files('-d -b24', dde_pcm, '.pcm', ref_frame337, dde_es, '.dde')
 		process_files('-d -b16', dd_pcm, '.pcm', ref_frame337, dd_es, '.ac3')
 		process_files('-d -b16', ddplus_pcm, '.pcm', ref_frame337, ddplus_es, '.ec3')
 
-		print "Generating source wave files"
+		print ("Generating source wave files")
 		process_files('', dde_es, '.dde', ref_frame337, dde_wav, '.wav')
 		process_files('', dd_es, '.ac3', ref_frame337, dd_wav, '.wav')
 		process_files('', ddplus_es, '.ec3', ref_frame337, ddplus_wav, '.wav')
@@ -272,7 +272,7 @@ def main():
 		return(0)
 
 	# Remove device under test output files
-	print "Clean dut output directory"
+	print ("Clean dut output directory")
 	os.system( 'rm -fR dut_output' )
 	os.system( 'mkdir -p dut_output' )
 
