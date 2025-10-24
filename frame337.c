@@ -1129,16 +1129,17 @@ int deformat (File_Info *file_info, int verbose)
 
 #ifdef LITEND
 
-/*	Byte swap the buffer words on little-endian machines */
-
-				if(file_info->bits_per_sample == 16)
+/*	Byte swap the buffer words on little-endian machines, don't swap for dolby E 16 bit as it is little endian */
+				if((file_info->bits_per_sample == 16) && (file_info->stream_type != DOLBYE))
+#else
+				if((file_info->bits_per_sample == 16) && (file_info->stream_type == DOLBYE))
+#endif /* LITEND */
 				{
                     int nwords = nbits / 16;
                     if (nbits % 16)
                         nwords++;
 
 					shortbuf = (uint16_t *)dfbuf;
-
 					for (i = 0; i < nwords; i ++)
 					{
 						j = shortbuf [i];
@@ -1147,12 +1148,10 @@ int deformat (File_Info *file_info, int verbose)
 						shortbuf [i] = (uint16_t)(j | k);
 					}
 				}
-#endif /* LITEND */
 				// convert buffer //
 				if(file_info->stream_type == DOLBYE)
 				{
 					convertbuffer(dfbuf, (void *)dde_temp_buf, file_info->bits_per_sample, 32, nbits, file_info->bit_depth);
-
 					if(fwrite((void *)dde_temp_buf, 4, (nbits / file_info->bit_depth), file_info->ac3file) 
 						!= (size_t) (nbits / file_info->bit_depth))
 					{
