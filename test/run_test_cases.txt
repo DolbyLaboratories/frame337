@@ -393,3 +393,9 @@ sources/ac4_wav/01_272_02_cast_fast_50s_25fps.wav reference_output/tid365_01_272
 sources/ac4_pcm/01_272_02_cast_fast_50s_25fps.pcm reference_output/tid365_01_272_02_cast_fast_50s_25fps.ac4 -d -b16
 sources/ac4_wav/01_273_02_cast_fast_50s_25fps.wav reference_output/tid366_01_273_02_cast_fast_50s_25fps.ac4 -d
 sources/ac4_pcm/01_273_02_cast_fast_50s_25fps.pcm reference_output/tid366_01_273_02_cast_fast_50s_25fps.ac4 -d -b16
+sources/dde_wav/16bit_25fps_pc11.wav reference_output/tid367_16bit_25fps_pc11.dde -d
+sources/dde_wav/24bit_25fps_pc0.wav reference_output/tid368_24bit_25fps_pc0.dde -d
+sources/dde_pcm/16bit_25fps_pc11.pcm reference_output/tid367_16bit_25fps_pc11.dde -d -b24
+sources/dde_pcm/24bit_25fps_pc0.pcm reference_output/tid368_24bit_25fps_pc0.dde -d -b24
+sources/dde_es/16bit_25fps_pc11.dde reference_output/tid369_16bit_25fps_pc11.wav
+sources/dde_es/24bit_25fps_pc0.dde reference_output/tid370_24bit_25fps_pc0.wav
